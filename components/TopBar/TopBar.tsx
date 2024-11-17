@@ -39,7 +39,7 @@ export default TopBar;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
+    padding: 15,
   },
   imageContainer: {
     flexDirection: "row",

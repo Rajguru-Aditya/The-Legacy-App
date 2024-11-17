@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Image } from "expo-image";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Searchbar from "./Searchbar";
 
 const TopBar = () => {
   return (
@@ -22,6 +23,14 @@ const TopBar = () => {
         <Text style={styles.greeting}>Hello</Text>
         <Text style={styles.name}>Jeff !</Text>
       </View>
+
+      <View style={styles.imageContainer}>
+        <Searchbar />
+        <Image
+          source={"https://img.icons8.com/ios/50/sorting-options--v1.png"}
+          style={{ height: 30, width: 30 }}
+        />
+      </View>
     </View>
   );
 };
@@ -37,6 +46,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
+    gap: 20,
   },
   profileImg: {
     height: 50,

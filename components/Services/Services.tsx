@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { Image } from "expo-image";
 import funeralHomeIcon from "../../assets/icons/funeralHome.png";
@@ -7,8 +7,11 @@ import headstoneIcon from "../../assets/icons/headstoneIcon.png";
 import attorneyIcon from "../../assets/icons/attorneyIcon.png";
 // import memorialConsultingIcon from "../../assets/icons/memorialConsultingIcon.png";
 import insuranceIcon from "../../assets/icons/insuranceIcon.png";
+import { useNavigation } from "expo-router";
 
 const Services = () => {
+  const navigation = useNavigation();
+
   const servicesList = [
     {
       name: "Funeral Homes",
@@ -38,10 +41,13 @@ const Services = () => {
 
   const ServiceItem = ({ title, icon }) => {
     return (
-      <View style={styles.itemContainer}>
+      <TouchableOpacity
+        style={styles.itemContainer}
+        onPress={() => navigation.navigate("Listings")}
+      >
         <Image source={icon} style={{ height: 25, width: 25 }} />
         <Text style={styles.itemName}>{title}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 

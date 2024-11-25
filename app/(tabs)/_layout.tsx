@@ -30,7 +30,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="homeStack"
         options={{
           title: "Home",
           tabBarShowLabel: false,

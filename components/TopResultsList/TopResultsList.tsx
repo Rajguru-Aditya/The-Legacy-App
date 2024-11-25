@@ -9,11 +9,17 @@ import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Image } from "expo-image";
 import Fontisto from "@expo/vector-icons/Fontisto";
+import { useNavigation } from "expo-router";
 
 const TopResultsList = ({ title, items }) => {
+  const navigation = useNavigation();
+
   const ListItem = ({ item }) => {
     return (
-      <View style={styles.listItemContainer}>
+      <TouchableOpacity
+        style={styles.listItemContainer}
+        onPress={() => navigation.navigate("MoreInfo")}
+      >
         {/* Left Container */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image source={item.image} style={styles.itemImage} />
@@ -21,17 +27,27 @@ const TopResultsList = ({ title, items }) => {
             <View style={styles.rightInnerContainer}>
               <View style={styles.nameContainer}>
                 <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.designation}>{item.designation}</Text>
+                {(item.designation || item.desc) && (
+                  <Text style={styles.designation}>
+                    {item.designation || item.desc}
+                  </Text>
+                )}
               </View>
-              <View style={styles.nameContainer}>
-                <View
-                  style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
-                >
-                  <Fontisto name="clock" size={10} color="#333333" />
-                  <Text style={styles.availability}>{item.availability}</Text>
+              {item.availability && item.fees && (
+                <View style={styles.nameContainer}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    <Fontisto name="clock" size={10} color="#333333" />
+                    <Text style={styles.availability}>{item.availability}</Text>
+                  </View>
+                  <Text style={styles.designation}>Fees: {item.fees}</Text>
                 </View>
-                <Text style={styles.designation}>Fees: {item.fees}</Text>
-              </View>
+              )}
             </View>
             <View style={styles.rightCornerContainer}>
               <View style={styles.ratingItem}>
@@ -46,7 +62,7 @@ const TopResultsList = ({ title, items }) => {
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

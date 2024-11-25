@@ -16,6 +16,7 @@ import clients from "../assets/icons/clients.png";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useLocalSearchParams } from "expo-router";
 
 const StatsList = [
   {
@@ -36,6 +37,8 @@ const StatsList = [
 ];
 
 const MoreInfo = () => {
+  const { title, name, image, rating, location, desc } = useLocalSearchParams();
+
   const StatsItem = ({ title, value, img }) => (
     <View style={styles.statsItem}>
       <View style={styles.statsImgCont}>
@@ -48,7 +51,7 @@ const MoreInfo = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title={"Cemetry"} />
+      <Header title={title} />
 
       {/* ------------------ Top container ----------------------*/}
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -57,6 +60,7 @@ const MoreInfo = () => {
           <Image
             style={styles.productImg}
             source={
+              image ||
               "https://images.unsplash.com/photo-1680821488873-8ecaf386a554?q=80&w=2068&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             }
           />
@@ -71,16 +75,14 @@ const MoreInfo = () => {
         <View>
           {/* Name and rating */}
           <View style={styles.nameCont}>
-            <Text style={styles.name}>Beth David Cemetery</Text>
+            <Text style={styles.name}>{name}</Text>
             <View style={styles.ratingCont}>
               <Octicons name="star-fill" size={24} color="#FFD33C" />
-              <Text style={styles.rating}>4.9 (96 reviews)</Text>
+              <Text style={styles.rating}>{rating} (96 reviews)</Text>
             </View>
           </View>
           {/* Address */}
-          <Text style={styles.address}>
-            300 Elmont Rd Elmont, New York, 11003
-          </Text>
+          <Text style={styles.address}>{location}</Text>
         </View>
 
         {/* Statistics */}
@@ -99,9 +101,8 @@ const MoreInfo = () => {
         <View style={{ marginTop: 15 }}>
           <Text style={styles.infoTitle}>About this cemetery</Text>
           <Text style={styles.infoValue}>
-            With over 100 years of experience directing Jewish funerals,
-            Gutterman’s is one of the largest family owned and operated firms of
-            its kind in the nation.{" "}
+            {desc ||
+              "Gutterman’s is a family owned and operated funeral home that has been serving the Jewish community of New York City since 1892. With over 100 years of experience directing Jewish funerals, Gutterman’s is one of the largest family owned and operated firms of its kind in the nation."}
           </Text>
         </View>
 

@@ -9,16 +9,31 @@ import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Image } from "expo-image";
 import Fontisto from "@expo/vector-icons/Fontisto";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 
 const TopResultsList = ({ title, items }) => {
   const navigation = useNavigation();
+  const router = useRouter();
+
+  console.log("Data in top results ------>", title, items);
 
   const ListItem = ({ item }) => {
     return (
       <TouchableOpacity
         style={styles.listItemContainer}
-        onPress={() => navigation.navigate("MoreInfo")}
+        onPress={() => {
+          router.push({
+            pathname: "/MoreInfo",
+            params: {
+              title: title,
+              name: item.name,
+              image: item.image,
+              rating: item.rating,
+              location: item.location || "",
+              desc: item.desc || "",
+            },
+          });
+        }}
       >
         {/* Left Container */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -27,9 +42,9 @@ const TopResultsList = ({ title, items }) => {
             <View style={styles.rightInnerContainer}>
               <View style={styles.nameContainer}>
                 <Text style={styles.name}>{item.name}</Text>
-                {(item.designation || item.desc) && (
+                {(item.designation || item.desc || item.location) && (
                   <Text style={styles.designation}>
-                    {item.designation || item.desc}
+                    {item.designation || item.desc || item.location}
                   </Text>
                 )}
               </View>
@@ -113,6 +128,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "500",
+    width: "70%",
   },
   seeAllBtnContainer: {
     elevation: 5,

@@ -1,40 +1,37 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 
-const TopRated = ({ title }) => {
+const TopRated = ({ title, items }) => {
   const navigation = useNavigation();
+  const router = useRouter();
+  const [topRatedList, setTopRatedList] = useState([]);
 
-  const topRatedList = [
-    {
-      img: "https://images.unsplash.com/photo-1680821488808-d1396c0ebfca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
-      name: "Sinai Chapels",
-      rating: 4.5,
-      open: "Open 24/7",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1680821489653-0654365236d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D",
-      name: "Aubrey G.",
-      rating: 4.5,
-      open: "Open 24/7",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1680821488396-9c89641be355?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fHw%3D",
-      name: "Elm Solo",
-      rating: 4.5,
-      open: "Open 24/7",
-    },
-  ];
+  useEffect(() => {
+    setTopRatedList(items);
+  }, [items]);
 
   const TopRatedItem = ({ item }) => {
     return (
       <TouchableOpacity
         style={styles.topRatedItem}
-        onPress={() => navigation.navigate("MoreInfo")}
+        onPress={() => {
+          router.push({
+            pathname: "/MoreInfo",
+            params: {
+              title: title,
+              name: item.name,
+              image: item.image,
+              rating: item.rating,
+              location: item.location || "",
+              desc: item.desc || "",
+            },
+          });
+        }}
       >
-        <Image source={item.img} style={styles.itemImg} contentFit="cover" />
+        <Image source={item.image} style={styles.itemImg} contentFit="cover" />
         <Text style={styles.itemTitle}>{item.name}</Text>
         <Text style={styles.itemSubtitle}>{item.open}</Text>
         <View style={styles.ratingsContainer}>
@@ -49,9 +46,10 @@ const TopRated = ({ title }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.topRatedList}>
-        {topRatedList.map((item, index) => (
-          <TopRatedItem key={index} item={item} />
-        ))}
+        {topRatedList?.length > 0 &&
+          topRatedList?.map((item, index) => (
+            <TopRatedItem key={index} item={item} />
+          ))}
       </View>
     </View>
   );
